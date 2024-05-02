@@ -114,14 +114,13 @@ if __name__ == '__main__':
     login()  # login
 
     order_tracker = {}  # 監控列表. filled_no -> [FilledData, is_stop_order_sent (True or False)]
-    order_tracker_stopped = []  # 已完成停損(或停利)之委託單. order_no
 
     # Initialize threading lock
     threading_lock = threading.Lock()
 
     # 主要邏輯
-    # 說明：每 1 秒進行委託單查詢，若有新的完全成交(status: 50)之"買進"(buy_sell: Buy)委託單, 則下對應之 3% 停損停利OCO委託單
-    # (註: oco委託單統一使用ROD, 效期至收盤為止)
+    # 說明：每 1 秒進行成交紀錄查詢，若有新的成交紀錄, 則開始監控並下對應之 3% 停損/停利OCO委託單
+    # (註: oco委託單統一使用ROD市價單, 效期至收盤為止)
     # (註2: 程式設定查詢運行時間為 9:00AM - 01:25PM)
     # (註3: 本範例僅處理現股整股委託單)
 
