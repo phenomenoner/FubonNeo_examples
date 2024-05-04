@@ -2,24 +2,20 @@
 我們用富邦新一代 API，搭配 Python 來做一個自動抓單的小工具。當你的股票交易成交後，這個程式就會自動幫你把訂單加進監控名單，幫你看著止盈止損。只要碰到設定的價格，程式馬上替你下單，確保你賺的不跑掉，賠的及時止損。這種操作有點像是常見的「自動停損停利單」，一旦一邊成交了，另一邊就不會再執行。<br>
 
 > Disclaimer: 本範例程式碼僅供教學與參考之用，實務交易應自行評估並承擔相關風險
-<br>
 
 ## 安裝環境
 ### 安裝套件
-<br>
 
 ```console
 pip install -r requirenemts.txt
 ```
-<br>
 
 ### 安裝富邦新一代API Python SDK
-至富邦新一代API官網下載最新 Python SDK <br>
 
 ```console
 pip install (SDK檔案位置)
 ```
-<br>
+[富邦新一代API Python SDK 載點](https://www.fbs.com.tw/TradeAPI/docs/download/download-sdk)
 
 ## 參考連結
 富邦新一代API Python SDK載點及開發說明文件
