@@ -9,13 +9,12 @@ cert_filepath = os.getenv('CPATH')
 certpwd = os.getenv('CPWD')
 
 target_account = os.getenv('ACCOUNT')
-dev_server = os.getenv('SERVER')
 
 # %%
 
 from fubon_neo.sdk import FubonSDK, Order
 
-sdk = FubonSDK(dev_server)
+sdk = FubonSDK()
 response = sdk.login(id, pwd, cert_filepath, certpwd)  # 需登入後，才能取得行情權限
 
 # 更新可用帳號列表
