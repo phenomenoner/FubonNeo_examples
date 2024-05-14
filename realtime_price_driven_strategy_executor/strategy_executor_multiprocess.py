@@ -5,6 +5,7 @@ import json
 import os
 from fubon_neo.sdk import FubonSDK
 from dotenv import load_dotenv
+from datetime import datetime
 
 
 def execute_strategy(price_queue):
@@ -22,7 +23,8 @@ def execute_strategy(price_queue):
 
         try:
             # TODO: 添加交易策略邏輯
-            print(f"{symbol}, 報價 {data['price']}, 執行策略 ...")
+            current_time = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+            print(f"[{current_time}] {symbol}, 報價 {data['price']}, 執行策略 ...")
             time.sleep(3)  # Dummy sleep time, for the demonstration purpose only
 
         except Exception as e:
@@ -112,7 +114,7 @@ class StrategyExecutorMultiprocess:
 
         if event == "data":
             symbol = data["symbol"]
-            self.price_queue[symbol].push(data)
+            self.price_queue[symbol].put(data)
             return
 
         elif event == "pong" or event == "heartbeat":  # SDK 保持連線用，略過

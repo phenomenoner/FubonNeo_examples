@@ -1,9 +1,11 @@
 import time
 import asyncio
+from concurrent.futures import ThreadPoolExecutor
 import json
 import os
 from fubon_neo.sdk import FubonSDK
 from dotenv import load_dotenv
+from datetime import datetime
 
 
 class StrategyExecutorAsync:
@@ -13,6 +15,9 @@ class StrategyExecutorAsync:
 
         # For async use
         self.event_loop = asyncio.new_event_loop()
+        self.locks = {}  # symbol -> threading lock for symbol
+        self.threadpool_executor = ThreadPoolExecutor(max_workers=3)
+        self.lastest_timestamp = {}  # symbol -> lastest timestamp of trade data
 
     def login(self, id, pwd, certpath, certpwd):
         """
@@ -48,6 +53,12 @@ class StrategyExecutorAsync:
 
         marketdata_ws.connect()  # 啟用行情連線
 
+        # Initialize asyncio locks and latest timestamps
+        asyncio.set_event_loop(self.event_loop)
+        for symbol in symbols:
+            self.locks[symbol] = asyncio.Lock()
+            self.lastest_timestamp[symbol] = None
+
         # 訂閱行情
         for symbol in symbols:
             marketdata_ws.subscribe(
@@ -65,7 +76,7 @@ class StrategyExecutorAsync:
         # )
 
         # Keep the async event loop running
-        asyncio.run(self.__keep_running())
+        self.event_loop.run_until_complete(self.__keep_running())
 
     async def __keep_running(self):
         while True:
@@ -98,11 +109,28 @@ class StrategyExecutorAsync:
 
     async def __execute_strategy(self, data):
         symbol = data["symbol"]
+        timestamp = int(data["time"])
 
         try:
-            # TODO: 添加交易策略邏輯
-            print(f"{symbol}, 報價 {data['price']}, 執行策略 ...")
-            time.sleep(3)  # Dummy sleep time, for the demonstration purpose only
+            async with self.locks[symbol]:  # 對單一標的，確保同時只執行一筆價格資料，避免策略重複執行
+                # Check if this price data is the most recent
+                if self.lastest_timestamp[symbol] is None or \
+                        self.lastest_timestamp[symbol] < timestamp:
+                    self.lastest_timestamp[symbol] = timestamp
+                else:
+                    return  # 非目前已有之最新資料，略過
+
+                # TODO: 添加交易策略邏輯
+                current_time = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+
+                # Make blocking operation awaitable
+                await asyncio.get_running_loop().run_in_executor(
+                    self.threadpool_executor,
+                    print,
+                    f"[{current_time}] {symbol}, 報價 {data['price']}, 執行策略 ..."
+                )
+
+                await asyncio.sleep(3)  # Dummy sleep time, for the demonstration purpose only
 
         except Exception as e:
             print(f"策略執行報錯: symbol {symbol}, error {e}")

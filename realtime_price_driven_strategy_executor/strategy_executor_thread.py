@@ -4,6 +4,7 @@ import json
 import os
 from fubon_neo.sdk import FubonSDK
 from dotenv import load_dotenv
+from datetime import datetime
 
 
 class StrategyExecutorThread:
@@ -113,7 +114,8 @@ class StrategyExecutorThread:
                     return  # 非目前已有之最新資料，略過
 
                 # TODO: 添加交易策略邏輯
-                print(f"{symbol}, 報價 {data['price']}, 執行策略 ...")
+                current_time = datetime.now().strftime('%H:%M:%S.%f')[:-3]
+                print(f"[{current_time}] {symbol}, 報價 {data['price']}, 執行策略 ...")
                 time.sleep(3)  # Dummy sleep time, for the demonstration purpose only
 
         except Exception as e:
