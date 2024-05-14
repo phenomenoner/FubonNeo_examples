@@ -5,6 +5,11 @@
 
 > Disclaimer: 本範例程式碼僅供教學與參考之用，實務交易應自行評估並承擔相關風險
 
+## 檔案內容
+* strategy_executor_thread.py - 多線程（Threading）版本範例
+* strategy_executor_async.py - 非同步處理（Asyncio）版本範例
+* strategy_executor_multiprocess.py - 多進程處理（Multiprocessing）版本範例
+
 ## 安裝環境
 ### 安裝套件
 
