@@ -25,5 +25,22 @@ https://discord.com/invite/VHjjc4C
 > Cert Password= #憑證密碼<br>
 
 ## 主程式設定
-> 主程式僅示範撰寫現股相關停損停利之交易邏輯<br>
-> 打勾狀態下即表示有在對該黨庫存的停損停利做監控<br>
+* 主程式僅示範撰寫現股相關停損停利之交易邏輯<br>
+* 打勾狀態下即表示有在對該檔庫存的停損停利做監控<br>
+* 本範例程式計算之損益報酬率僅使用成交價和庫存均價，未考慮交易成本(稅、手續費)<br>
+
+## Pyinstaller 編譯執行檔設定
+建議使用conda指令安裝pyinstaller減少環境問題<br>
+```
+conda install pyinstaller
+```
+若想編譯與教學範例一致之執行檔，請先將inventory_oco.py、inventory.spec、inventory.ico三個檔案移至同一資料夾，並用指令如下<br>
+```
+pyinstaller inventory_oco.spec
+```
+編譯完成後，應會出現單個執行檔在dist資料夾內<br>
+若想由原始碼編譯，建議使用以下指令進行單檔打包，在部署到其他裝置時會比較容易
+```
+pyinstaller -F inventory_oco.py
+```
+pyinstaller會自動產生新的inventory_oco.spec，可以再依自己的喜好調整參數
