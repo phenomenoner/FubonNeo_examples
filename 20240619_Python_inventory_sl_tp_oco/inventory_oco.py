@@ -567,8 +567,8 @@ class MainApp(QWidget):
                 if value == data["id"]:
                     print(value)
                     remove_key = key
-            self.subscribed_ids.pop(key)
-            self.communicator.print_log_signal.emit(key+"...成功移除訂閱")
+            self.subscribed_ids.pop(remove_key)
+            self.communicator.print_log_signal.emit(remove_key+"...成功移除訂閱")
         
         # data事件處理
         elif event == "data":
