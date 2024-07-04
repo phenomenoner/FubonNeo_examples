@@ -51,4 +51,4 @@ pyinstaller rush_limit_up_gui.spec
 ```
 pyinstaller -F rush_limit_up_gui.py
 ```
-pyinstaller會自動產生新的inventory_oco.spec，可以再依自己的喜好調整參數
+pyinstaller會自動產生新的rush_limit_up_gui.spec，可以再依自己的喜好調整參數
