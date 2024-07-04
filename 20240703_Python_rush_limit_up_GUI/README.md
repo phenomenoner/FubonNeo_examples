@@ -42,7 +42,7 @@ https://www.fbs.com.tw/TradeAPI/docs/trading/introduction
 ```
 conda install pyinstaller
 ```
-若想編譯與教學範例一致之執行檔，請先將inventory_oco.py、inventory.spec、inventory.ico三個檔案移至同一資料夾，並用指令如下<br>
+若想編譯與教學範例一致之執行檔，請先將rush_limit_up_gui.py、rush_limit_up_gui.spec、fast_icon.ico三個檔案移至同一資料夾，並用指令如下<br>
 ```
 pyinstaller rush_limit_up_gui.spec
 ```
