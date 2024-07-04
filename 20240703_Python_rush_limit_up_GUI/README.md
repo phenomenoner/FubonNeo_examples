@@ -18,7 +18,7 @@
 https://www.fbs.com.tw/TradeAPI/docs/download/download-sdk
 * 新一代API 開發說明文件<br>
 https://www.fbs.com.tw/TradeAPI/docs/trading/introduction 
-* 新一代API 社群討論<br>
+* 新一代API & XQ社群討論<br>
   * Line: https://reurl.cc/dnMxlV
   * Discord: https://discord.com/invite/VHjjc4C
 
