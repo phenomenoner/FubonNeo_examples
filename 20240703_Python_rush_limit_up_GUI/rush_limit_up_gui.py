@@ -493,8 +493,8 @@ class MainApp(QWidget):
             self.communicator.add_new_sub_signal.emit(data['symbol'], data['market'], data['price'], data['bid'], data['ask'], is_limit_up)
 
         elif event == "data":
-            if 'isTrail' in data:
-                if data['isTrail']:
+            if 'isTrial' in data:
+                if data['isTrial']:
                     return
                 
             is_limit_up = False
