@@ -349,15 +349,21 @@ class MainApp(QWidget):
 
     def update_table_row(self, symbol, price, bid, ask, is_limit_up):
         self.tablewidget.item(self.row_idx_map[symbol], self.col_idx_map['成交']).setText(str(round(price+self.epsilon, 2)))
-        if bid>0:
+        if bid > 0:
             self.tablewidget.item(self.row_idx_map[symbol], self.col_idx_map['買進']).setText(str(round(bid+self.epsilon, 2)))
-        else:
+        elif bid == 0:
             self.tablewidget.item(self.row_idx_map[symbol], self.col_idx_map['買進']).setText('市價')
+        elif bid == -1:
+            self.tablewidget.item(self.row_idx_map[symbol], self.col_idx_map['買進']).setText('-')
 
-        if ask:
+        if ask > 0:
             self.tablewidget.item(self.row_idx_map[symbol], self.col_idx_map['賣出']).setText(str(round(ask+self.epsilon, 2)))
-        else:
+        elif ask == 0:
+            self.tablewidget.item(self.row_idx_map[symbol], self.col_idx_map['賣出']).setText('市價')
+        elif ask == -1:
             self.tablewidget.item(self.row_idx_map[symbol], self.col_idx_map['賣出']).setText('-')
+        
+        
 
         if price:
             up_range = (price-self.last_close_dict[symbol])/self.last_close_dict[symbol]*100
@@ -403,14 +409,20 @@ class MainApp(QWidget):
                 if bid > 0:
                     item = QTableWidgetItem(str(round(bid+self.epsilon, 2)))
                     self.tablewidget.setItem(row, j, item)
-                else:
+                elif bid == 0:
                     item = QTableWidgetItem('市價')
                     self.tablewidget.setItem(row, j, item)
+                elif bid == -1:
+                    item = QTableWidgetItem('-')
+                    self.tablewidget.setItem(row, j, item)
             elif self.table_header[j] == '賣出':
-                if ask:
+                if ask>0:
                     item = QTableWidgetItem(str(round(ask+self.epsilon, 2)))
                     self.tablewidget.setItem(row, j, item)
-                else:
+                elif ask == 0:
+                    item = QTableWidgetItem('市價')
+                    self.tablewidget.setItem(row, j, item)
+                elif ask == -1:
                     item = QTableWidgetItem('-')
                     self.tablewidget.setItem(row, j, item)
             elif self.table_header[j] == '漲幅(%)':
@@ -484,11 +496,11 @@ class MainApp(QWidget):
                 is_limit_up = True
 
             if 'ask' not in data:
-                data['ask'] = None
+                data['ask'] = -1
             if 'bid' not in data:
-                data['bid'] = None
+                data['bid'] = -1
             if 'price' not in data:
-                data['price'] = None
+                data['price'] = -1
 
             self.communicator.add_new_sub_signal.emit(data['symbol'], data['market'], data['price'], data['bid'], data['ask'], is_limit_up)
 
@@ -502,11 +514,11 @@ class MainApp(QWidget):
                 is_limit_up = True
 
             if 'ask' not in data:
-                data['ask'] = None
+                data['ask'] = -1
             if 'bid' not in data:
-                data['bid'] = None
+                data['bid'] = -1
             if 'price' not in data:
-                data['price'] = None
+                data['price'] = -1
             
             print(event, data)
             self.communicator.update_table_row_signal.emit(data['symbol'], data['price'], data['bid'], data['ask'], is_limit_up)
