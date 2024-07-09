@@ -399,7 +399,7 @@ class MainApp(QWidget):
                 item = QTableWidgetItem(tse_otc)
                 self.tablewidget.setItem(row, j, item)
             elif self.table_header[j] == '成交':
-                if price:
+                if price > 0:
                     item = QTableWidgetItem(str(round(price+self.epsilon, 2)))
                     self.tablewidget.setItem(row, j, item)
                 else:
@@ -426,7 +426,7 @@ class MainApp(QWidget):
                     item = QTableWidgetItem('-')
                     self.tablewidget.setItem(row, j, item)
             elif self.table_header[j] == '漲幅(%)':
-                if price:
+                if price > 0:
                     up_range = (price-ticker_res['referencePrice'])/ticker_res['referencePrice']*100
                     item = QTableWidgetItem(str(round(up_range+self.epsilon, 2))+'%')
                 else:
@@ -491,6 +491,7 @@ class MainApp(QWidget):
             self.communicator.print_log_signal.emit(remove_key+"...成功移除訂閱")
 
         elif event == "snapshot":
+            print(event, data)
             is_limit_up = False
             if 'isLimitUpPrice' in data:
                 is_limit_up = True
