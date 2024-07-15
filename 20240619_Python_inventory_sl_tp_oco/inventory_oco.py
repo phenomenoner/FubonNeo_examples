@@ -736,17 +736,10 @@ class MainApp(QWidget):
         print(self.row_idx_map)
         print(self.col_idx_map)
 
-
-
-
-
     # 更新最新log到QPlainTextEdit的slot function
     def print_log(self, log_info):
         self.log_text.appendPlainText(log_info)
         self.log_text.moveCursor(QTextCursor.End)
-
-
-
 
 
 try:
